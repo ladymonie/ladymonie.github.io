@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Epidemiology Flash Cards</title>
+
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --secondary: #e5e7eb;
+      --secondary-hover: #d1d5db;
+      --success: #10b981;
+      --danger: #ef4444;
+      --text: #111827;
+      --radius: 22px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, #dbeafe, transparent 30%),
+        radial-gradient(circle at bottom right, #ddd6fe, transparent 30%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    main {
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .app-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+    }
+
+    h1 {
+      margin-top: 0;
+      text-align: center;
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+
+    .instructions {
+      text-align: center;
+      line-height: 1.6;
+      color: #4b5563;
+      margin-bottom: 2rem;
+    }
+
+    .progress {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .flashcard {
+      background: linear-gradient(135deg, #eff6ff, #ffffff);
+      border-radius: 24px;
+      min-height: 260px;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      border: 3px solid transparent;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .flashcard:hover {
+      transform: translateY(-3px);
+      border-color: #bfdbfe;
+    }
+
+    .flashcard:focus-visible {
+      outline: 4px solid #93c5fd;
+      outline-offset: 4px;
+    }
+
+    .card-text {
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-weight: bold;
+      line-height: 1.5;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+      min-width: 140px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:focus-visible {
+      outline: 4px solid #93c5fd;
+      outline-offset: 3px;
+    }
+
+    .flip-btn {
+      background: var(--secondary);
+      color: var(--text);
+    }
+
+    .flip-btn:hover {
+      background: var(--secondary-hover);
+    }
+
+    .correct-btn {
+      background: var(--success);
+      color: white;
+    }
+
+    .wrong-btn {
+      background: var(--danger);
+      color: white;
+    }
+
+    .shuffle-btn {
+      background: #7c3aed;
+      color: white;
+    }
+
+    .next-btn {
+      background: var(--primary);
+      color: white;
+      font-size: 1.1rem;
+      padding: 1.1rem 2rem;
+      min-width: 200px;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+    }
+
+    .next-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .score-board {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .status-message {
+      text-align: center;
+      margin-top: 1rem;
+      min-height: 1.5rem;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .app-card {
+        padding: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="app-card" aria-labelledby="app-title">
+      <h1 id="app-title">Flash Card Deck</h1>
+
+      <p class="instructions">
+        Click the flash card or use the Flip button to reveal the answer.
+        Score yourself, shuffle the deck, and move through cards with the large Next button.
+      </p>
+
+      <div
+        id="progress"
+        class="progress"
+        aria-live="polite"
+      >
+        Card 1 of 2
+      </div>
+
+      <div
+        id="flashcard"
+        class="flashcard"
+        tabindex="0"
+        role="button"
+        aria-label="Flash card. Press Enter or Space to flip."
+      >
+        <div id="cardText" class="card-text"></div>
+      </div>
+
+      <!-- USER BUTTONS BELOW FLASHCARD -->
+      <div class="button-group">
+        <button
+          id="flipBtn"
+          class="flip-btn"
+          type="button"
+          aria-label="Flip flash card"
+        >
+          Flip Card
+        </button>
+
+        <button
+          id="correctBtn"
+          class="correct-btn"
+          type="button"
+          aria-label="Mark answer correct"
+        >
+          ✔ Correct
+        </button>
+
+        <button
+          id="wrongBtn"
+          class="wrong-btn"
+          type="button"
+          aria-label="Mark answer incorrect"
+        >
+          ✘ Incorrect
+        </button>
+
+        <button
+          id="shuffleBtn"
+          class="shuffle-btn"
+          type="button"
+          aria-label="Shuffle flash cards"
+        >
+          🔀 Shuffle
+        </button>
+      </div>
+
+      <!-- OBVIOUS NEXT BUTTON -->
+      <div class="button-group">
+        <button
+          id="nextBtn"
+          class="next-btn"
+          type="button"
+          aria-label="Go to next flash card"
+        >
+          ➜ NEXT CARD
+        </button>
+      </div>
+
+      <div
+        id="statusMessage"
+        class="status-message"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+      <div class="score-board" aria-live="polite">
+        <div>Correct: <span id="correctScore">0</span></div>
+        <div>Incorrect: <span id="wrongScore">0</span></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /************************************************************
+     * TEACHER-EDITABLE FLASHCARD CONTENT
+     * Easily add/remove/edit cards here only
+     ************************************************************/
+    const FLASHCARD_DATA = [
+      {
+        term: "Epidemiologic transition",
+        definition:
+          "Change in prevalent diseases over time from infectious to chronic diseases."
+      },
+
+      {
+        term: "Demographic transition",
+        definition:
+          "Change over time from high birth and death rates to low birth and death rates."
+      }
+    ];
+
+    /************************************************************
+     * APP STATE
+     ************************************************************/
+    let currentCardIndex = 0;
+    let showingDefinition = false;
+    let correctScore = 0;
+    let wrongScore = 0;
+
+    /************************************************************
+     * DOM ELEMENTS
+     ************************************************************/
+    const flashcard = document.getElementById("flashcard");
+    const cardText = document.getElementById("cardText");
+    const progress = document.getElementById("progress");
+
+    const flipBtn = document.getElementById("flipBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+
+    const correctBtn = document.getElementById("correctBtn");
+    const wrongBtn = document.getElementById("wrongBtn");
+
+    const correctScoreElement = document.getElementById("correctScore");
+    const wrongScoreElement = document.getElementById("wrongScore");
+
+    const statusMessage = document.getElementById("statusMessage");
+
+    /************************************************************
+     * DISPLAY CURRENT CARD
+     ************************************************************/
+    function displayCard() {
+      const currentCard = FLASHCARD_DATA[currentCardIndex];
+
+      cardText.textContent = showingDefinition
+        ? currentCard.definition
+        : currentCard.term;
+
+      progress.textContent =
+        `Card ${currentCardIndex + 1} of ${FLASHCARD_DATA.length}`;
+    }
+
+    /************************************************************
+     * FLIP CARD
+     ************************************************************/
+    function flipCard() {
+      showingDefinition = !showingDefinition;
+      displayCard();
+    }
+
+    /************************************************************
+     * NEXT CARD
+     ************************************************************/
+    function nextCard() {
+      currentCardIndex++;
+
+      if (currentCardIndex >= FLASHCARD_DATA.length) {
+        currentCardIndex = 0;
+      }
+
+      showingDefinition = false;
+      displayCard();
+
+      statusMessage.textContent = "";
+    }
+
+    /************************************************************
+     * SHUFFLE CARDS
+     ************************************************************/
+    function shuffleCards() {
+      for (let i = FLASHCARD_DATA.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [FLASHCARD_DATA[i], FLASHCARD_DATA[j]] =
+          [FLASHCARD_DATA[j], FLASHCARD_DATA[i]];
+      }
+
+      currentCardIndex = 0;
+      showingDefinition = false;
+
+      displayCard();
+
+      statusMessage.textContent = "Deck shuffled!";
+    }
+
+    /************************************************************
+     * SCORE FUNCTIONS
+     ************************************************************/
+    function markCorrect() {
+      correctScore++;
+      correctScoreElement.textContent = correctScore;
+
+      statusMessage.textContent = "Marked correct!";
+    }
+
+    function markWrong() {
+      wrongScore++;
+      wrongScoreElement.textContent = wrongScore;
+
+      statusMessage.textContent = "Marked incorrect!";
+    }
+
+    /************************************************************
+     * EVENT LISTENERS
+     ************************************************************/
+    flipBtn.addEventListener("click", flipCard);
+    nextBtn.addEventListener("click", nextCard);
+    shuffleBtn.addEventListener("click", shuffleCards);
+
+    correctBtn.addEventListener("click", markCorrect);
+    wrongBtn.addEventListener("click", markWrong);
+
+    flashcard.addEventListener("click", flipCard);
+
+    flashcard.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        flipCard();
+      }
+    });
+
+    /************************************************************
+     * INITIALIZE APP
+     ************************************************************/
+    displayCard();
+  </script>
+</body>
+</html>
