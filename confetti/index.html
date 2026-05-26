@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confetti Celebration App</title>
+
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --shadow: 0 10px 25px rgba(0,0,0,0.1);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background:
+        radial-gradient(circle at top left, #ddd6fe, transparent 30%),
+        radial-gradient(circle at bottom right, #bfdbfe, transparent 30%),
+        var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+    }
+
+    main {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.1;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 1rem 1.5rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition:
+        transform 0.15s ease,
+        background 0.2s ease;
+      min-width: 220px;
+    }
+
+    button:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    button:focus-visible {
+      outline: 4px solid #c4b5fd;
+      outline-offset: 4px;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .message {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      min-height: 1.5rem;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="card" aria-labelledby="app-title">
+      <h1 id="app-title">Celebrate!</h1>
+
+      <p>
+        Click the button below to launch a burst of colorful confetti.
+        Works with mouse, touch, and keyboard.
+      </p>
+
+      <button
+        id="confettiButton"
+        type="button"
+        aria-label="Launch confetti celebration"
+      >
+        🎉 Throw Confetti
+      </button>
+
+      <div
+        id="statusMessage"
+        class="message"
+        role="status"
+        aria-live="polite"
+      ></div>
+    </section>
+  </main>
+
+  <script>
+    /************************************************************
+     * EDITABLE CONTENT
+     * Easily update text/messages here without touching other code
+     ************************************************************/
+    const APP_CONTENT = {
+      successMessages: [
+        "Amazing!",
+        "Nice work!",
+        "Celebrate the moment!",
+        "Confetti time!",
+        "You did it!"
+      ]
+    };
+
+    /************************************************************
+     * APP LOGIC
+     ************************************************************/
+    const button = document.getElementById("confettiButton");
+    const statusMessage = document.getElementById("statusMessage");
+
+    function getRandomMessage() {
+      const messages = APP_CONTENT.successMessages;
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      return messages[randomIndex];
+    }
+
+    function launchConfetti() {
+      // Left burst
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { x: 0.2, y: 0.6 }
+      });
+
+      // Right burst
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { x: 0.8, y: 0.6 }
+      });
+
+      // Update accessible live region
+      statusMessage.textContent = getRandomMessage();
+    }
+
+    button.addEventListener("click", launchConfetti);
+
+    // Extra keyboard accessibility
+    button.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        launchConfetti();
+      }
+    });
+  </script>
+</body>
+</html>
