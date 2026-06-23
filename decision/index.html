@@ -341,9 +341,9 @@ function renderStep(stepId) {
   updateProgress();
   updateBreadcrumb();
   const container = document.getElementById("stepContainer");
-  const backBtn = history.length > 0 ? "<button class='back-btn' onclick='goBack()'><i class='ti ti-arrow-left' aria-hidden='true'></i> Back</button>" : "";
-  const opts = step.options.map(function(o) {
-    return "<button class='opt-btn' onclick=\"choose('" + stepId + "','" + o.next + "'," + JSON.stringify(o.label) + ")\">" +
+  const backBtn = history.length > 0 ? "<button class='back-btn' id='backBtn'><i class='ti ti-arrow-left' aria-hidden='true'></i> Back</button>" : "";
+  const opts = step.options.map(function(o, idx) {
+    return "<button class='opt-btn' data-step='" + stepId + "' data-next='" + o.next + "' data-idx='" + idx + "'>" +
       "<i class='ti " + o.icon + " opt-icon' aria-hidden='true'></i>" +
       "<div class='opt-text'><strong>" + o.label + "</strong><span>" + o.sub + "</span></div>" +
       "</button>";
@@ -354,6 +354,16 @@ function renderStep(stepId) {
     "<div class='question-hint'>" + step.hint + "</div>" +
     "<div class='options'>" + opts + "</div>" +
     backBtn + "</div>";
+  container.querySelectorAll(".opt-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var s = btn.getAttribute("data-step");
+      var n = btn.getAttribute("data-next");
+      var idx = parseInt(btn.getAttribute("data-idx"));
+      choose(s, n, CONTENT.steps[s].options[idx].label);
+    });
+  });
+  var back = container.querySelector("#backBtn");
+  if (back) back.addEventListener("click", goBack);
   container.querySelector(".opt-btn").focus();
 }
 
@@ -382,7 +392,7 @@ function showResult(resultId) {
   updateProgress();
   updateBreadcrumb();
   const modHtml = CONTENT.modifiers.map(function(m) {
-    return "<button class='mod-btn' id='mod-" + m.id + "' onclick=\"toggleModifier('" + m.id + "','" + resultId + "')\" aria-pressed='false'>" +
+    return "<button class='mod-btn' id='mod-" + m.id + "' data-modid='" + m.id + "' aria-pressed='false'>" +
       "<i class='ti " + m.icon + "' aria-hidden='true' style='margin-right:4px'></i>" + m.label + "</button>";
   }).join("");
   const famousHtml = r.famous.map(function(f) {
@@ -393,7 +403,8 @@ function showResult(resultId) {
   }).join("");
   const strengthsHtml = r.strengths.map(function(s){ return "<li>" + s + "</li>"; }).join("");
   const limitsHtml = r.limitations.map(function(l){ return "<li>" + l + "</li>"; }).join("");
-  document.getElementById("stepContainer").innerHTML =
+  const container = document.getElementById("stepContainer");
+  container.innerHTML =
     "<div class='result-card' style='border:0.5px solid var(--color-border-tertiary)'>" +
       "<div class='result-header' style='background:var(--color-background-secondary)'>" +
         "<div style='display:flex;align-items:center;gap:8px;margin-bottom:6px'>" +
@@ -417,7 +428,14 @@ function showResult(resultId) {
           "<div id='modifier-notes'></div></div>" +
       "</div>" +
     "</div>" +
-    "<button class='restart-btn' onclick='restart()'><i class='ti ti-refresh' aria-hidden='true'></i> Start over</button>";
+    "<button class='restart-btn' id='restartBtn'><i class='ti ti-refresh' aria-hidden='true'></i> Start over</button>";
+  container.querySelectorAll(".mod-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      toggleModifier(btn.getAttribute("data-modid"), resultId);
+    });
+  });
+  var restartBtn = container.querySelector("#restartBtn");
+  if (restartBtn) restartBtn.addEventListener("click", restart);
 }
 
 function toggleModifier(modId, resultId) {
