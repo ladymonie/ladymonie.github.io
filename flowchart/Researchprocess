@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Process Explorer</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f7fb;margin:0;padding:20px;color:#222}
+.container{max-width:900px;margin:auto}
+h1{text-align:center;color:#1f4e79}
+p.lead{text-align:center}
+.flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:20px 0}
+.node{background:#fff;border:2px solid #1f4e79;border-radius:8px;padding:12px 18px;
+width:min(320px,90%);text-align:center;cursor:pointer;font-weight:bold}
+.node:hover,.node.active{background:#1f4e79;color:#fff}
+.arrow{font-size:24px;color:#1f4e79}
+.panel{background:#fff;border-radius:8px;padding:18px;border-left:6px solid #1f4e79;
+box-shadow:0 2px 6px rgba(0,0,0,.15)}
+small{color:#666}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>From Evidence to Action</h1>
+<p class="lead">Select a step in the epidemiologic research process to learn more.</p>
+
+<div class="flow" id="flow"></div>
+
+<div class="panel" aria-live="polite">
+<h2 id="title">Select a step</h2>
+<p id="definition">Click any box above to display an explanation.</p>
+<h3>Why it Matters</h3>
+<p id="why"></p>
+<h3>Proposal Connection</h3>
+<p id="proposal"></p>
+</div>
+
+</div>
+
+<script>
+//====================
+// EDIT CONTENT HERE
+//====================
+const STEPS=[
+{
+title:"Statement of the Problem",
+definition:"Clearly describe the public health problem that needs attention and explain why it is important.",
+why:"A well-defined problem provides the foundation for every decision that follows.",
+proposal:"Module 1: Identify a meaningful public health problem and its significance."
+},
+{
+title:"Research Question",
+definition:"Develop a focused, answerable question that guides your study.",
+why:"A strong research question determines the study design, variables, and analyses.",
+proposal:"Modules 2–3: Refine your topic into a research question and objectives."
+},
+{
+title:"Review of Literature",
+definition:"Examine existing evidence to understand what is already known, identify patterns, and uncover remaining decision gaps.",
+why:"The literature provides the scientific justification for your study.",
+proposal:"Module 2: Complete your Evidence Exploration Matrix."
+},
+{
+title:"Measurements",
+definition:"Define how each variable will be measured so that the study can be conducted consistently.",
+why:"Clear operational definitions improve validity and reproducibility.",
+proposal:"Module 5: Develop your variable table and measurement plan."
+},
+{
+title:"Sample Selection",
+definition:"Determine who will participate in the study and how they will be selected.",
+why:"Sampling influences bias, generalizability, and feasibility.",
+proposal:"Modules 4–5: Identify your study population and sampling approach."
+},
+{
+title:"Data Analysis",
+definition:"Plan how the data will be summarized and analyzed to answer the research question.",
+why:"The analysis plan should align with your objectives and study design.",
+proposal:"Module 6: Build your statistical analysis plan."
+},
+{
+title:"Evidence → Action",
+definition:"Interpret findings in the context of public health and consider how the evidence can inform policy, programs, clinical practice, or future research.",
+why:"Epidemiologic research should generate evidence that improves public health decisions.",
+proposal:"Modules 10–12: Translate your findings into meaningful public health action."
+}
+];
+
+const flow=document.getElementById("flow");
+const t=document.getElementById("title");
+const d=document.getElementById("definition");
+const w=document.getElementById("why");
+const p=document.getElementById("proposal");
+
+STEPS.forEach((s,i)=>{
+ const b=document.createElement("button");
+ b.className="node";
+ b.type="button";
+ b.textContent=s.title;
+ b.addEventListener("click",()=>{
+   document.querySelectorAll(".node").forEach(n=>n.classList.remove("active"));
+   b.classList.add("active");
+   t.textContent=s.title;
+   d.textContent=s.definition;
+   w.textContent=s.why;
+   p.textContent=s.proposal;
+ });
+ flow.appendChild(b);
+ if(i<STEPS.length-1){
+   const a=document.createElement("div");
+   a.className="arrow";
+   a.textContent="↓";
+   flow.appendChild(a);
+ }
+});
+</script>
+</body>
+</html>
