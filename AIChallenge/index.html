@@ -26,7 +26,7 @@ button:hover{background:#f7f7f7} button:focus{outline:3px solid #2563eb}
 //=====================
 // TEACHER-EDITABLE CONTENT
 //=====================
-const SCENARIOS=[{title:'Scenario 1',text:'You upload several peer-reviewed articles into AI and ask it to identify common themes, methodological weaknesses, and gaps in the literature for your thesis literature review.'',answer:'Not Appropriate',explanation:'Identifying patterns, evaluating evidence, and synthesizing literature are core scholarly responsibilities.',policy:'You must independently read, evaluate, compare, and synthesize the literature.'},
+const SCENARIOS=[{title:'Scenario 1',text:'While studying for an Epidemiology test, you use AI to explain the difference between prevalence and incidence.',answer:'Appropriate',explanation:'AI is acting as a tutor.',policy:'Learning support is encouraged.'},
 {title:'Scenario 2',text:'Use AI to summarize a CDC report before you read it.',answer:'Appropriate',explanation:'AI helps you prepare for learning.',policy:'Verify important details yourself.'},
 {title:'Scenario 3',text:'Use AI to suggest additional PubMed search terms.',answer:'Appropriate',explanation:'AI supports literature searching.',policy:'You still conduct and evaluate the search.'},
 {title:'Scenario 4',text:'Use AI to explain a SAS or STATA error message.',answer:'Appropriate',explanation:'AI is helping you troubleshoot.',policy:'You remain responsible for your analysis.'},
@@ -41,6 +41,7 @@ const SCENARIOS=[{title:'Scenario 1',text:'You upload several peer-reviewed arti
 {title:'Scenario 13',text:'Use AI to generate a literature review to submit.',answer:'Not Appropriate',explanation:'AI is completing the assignment.',policy:'This misrepresents authorship.'},
 {title:'Scenario 14',text:"Use AI to rewrite another author's work to appear original.",answer:'Not Appropriate',explanation:'This is plagiarism.',policy:'Academic integrity still applies.'},
 {title:'Scenario 15',text:'Use AI to interpret your regression results and submit the interpretation without reviewing it.',answer:'Not Appropriate',explanation:'Critical interpretation is your responsibility.',policy:'Do not outsource required analysis.'}];
+
 //=====================
 const choices=["Appropriate","Depends","Not Appropriate"];
 let i=0,score=0;
