@@ -26,134 +26,22 @@ button:hover{background:#f7f7f7} button:focus{outline:3px solid #2563eb}
 //=====================
 // TEACHER-EDITABLE CONTENT
 //=====================
-const SCENARIOS = [
-{
-  title: 'Scenario 1',
-  text: 'You upload several peer-reviewed articles into AI and ask it to identify common themes, methodological weaknesses, and gaps in the literature for your thesis literature review.',
-  answer: 'Not Appropriate',
-  explanation: 'Identifying patterns, evaluating evidence, and synthesizing literature are core scholarly responsibilities.',
-  policy: 'You must independently read, evaluate, compare, and synthesize the literature.'
-},
-{
-  title: 'Scenario 2',
-  text: 'You ask AI to explain the difference between prevalence and incidence because you are having difficulty understanding the concepts.',
-  answer: 'Appropriate',
-  explanation: 'AI may be used as a supplemental learning resource to explain concepts.',
-  policy: 'You remain responsible for understanding and applying the concepts independently.'
-},
-{
-  title: 'Scenario 3',
-  text: 'You write a paragraph for your thesis and ask AI to rewrite it to improve its academic tone, clarity, and flow.',
-  answer: 'Not Appropriate',
-  explanation: 'Rewriting submitted thesis content goes beyond supplemental assistance and involves transforming your academic work.',
-  policy: 'You are responsible for independently writing and revising all thesis content.'
-},
-{
-  title: 'Scenario 4',
-  text: 'You ask AI to suggest alternative keywords and search terms for a PubMed literature search.',
-  answer: 'Appropriate',
-  explanation: 'AI may provide technical assistance with identifying potential search terms.',
-  policy: 'You must independently conduct the search, screen the results, and determine which sources are relevant.'
-},
-{
-  title: 'Scenario 5',
-  text: 'You provide AI with your research question and study variables and ask it to recommend an appropriate statistical test.',
-  answer: 'Not Appropriate',
-  explanation: 'Selecting and justifying statistical methods is a core research competency being assessed in this course.',
-  policy: 'You must independently determine and justify your analytical approach.'
-},
-{
-  title: 'Scenario 6',
-  text: 'You provide AI with your SAS code and ask it to explain an error message or identify a possible coding issue.',
-  answer: 'Appropriate',
-  explanation: 'Limited technical troubleshooting is permitted.',
-  policy: 'You must understand and verify all suggested corrections and take responsibility for your code and analysis. Never upload confidential or identifiable data.'
-},
-{
-  title: 'Scenario 7',
-  text: 'You ask AI to review your research question and specific aims and identify whether they are logically aligned.',
-  answer: 'Depends',
-  explanation: 'The extent of AI involvement matters. General educational feedback may help you understand alignment, but having AI evaluate or refine your actual thesis aims is a substitute for scholarly judgment.',
-  policy: 'You should seek feedback from your thesis advisor or instructor and independently evaluate the alignment of your research question and aims.'
-},
-{
-  title: 'Scenario 8',
-  text: 'You ask AI to generate potential research questions based on your topic and the published literature.',
-  answer: 'Not Appropriate',
-  explanation: 'Developing the research question is a central intellectual contribution of the thesis process.',
-  policy: 'You must independently identify the research problem, knowledge gap, and research question.'
-},
-{
-  title: 'Scenario 9',
-  text: 'You ask AI to generate practice questions to help you prepare for your thesis defense.',
-  answer: 'Appropriate',
-  explanation: 'AI may be used as a supplemental study tool.',
-  policy: 'You must independently understand and defend your research decisions.'
-},
-{
-  title: 'Scenario 10',
-  text: 'You upload your regression output into AI and ask it to interpret the coefficients, confidence intervals, and p-values for your results section.',
-  answer: 'Not Appropriate',
-  explanation: 'Interpretation of statistical findings is a required component of independent scholarly work.',
-  policy: 'You must independently interpret and explain your statistical results.'
-},
-{
-  title: 'Scenario 11',
-  text: 'You ask AI to identify potential confounders for your proposed study. You then independently evaluate the suggestions and determine which variables are appropriate to include in your analysis.',
-  answer: 'Depends',
-  explanation: 'Using AI to generate methodological suggestions can introduce inappropriate or irrelevant variables and may substitute for the student's own epidemiologic reasoning.',
-  policy: 'For thesis work, confounder identification and justification must be independently developed. Discuss methodological questions with your advisor or instructor.'
-},
-{
-  title: 'Scenario 12',
-  text: 'You upload a CDC report into AI and ask it to summarize the findings so you do not have to read the original report.',
-  answer: 'Not Appropriate',
-  explanation: 'AI-generated summaries cannot replace direct engagement with primary sources.',
-  policy: 'You must read, evaluate, and accurately interpret the original sources you cite.'
-},
-{
-  title: 'Scenario 13',
-  text: 'You use AI to generate an outline for your thesis discussion section, then write the section yourself using your study findings and published literature.',
-  answer: 'Depends',
-  explanation: 'Developing the organization and scholarly argument of the discussion is part of the intellectual work being assessed. AI-generated outlines may effectively structure the student's argument.',
-  policy: 'You should independently organize your discussion and seek guidance from your thesis advisor.'
-},
-{
-  title: 'Scenario 14',
-  text: 'You ask AI to explain an unfamiliar statistical method, such as propensity score matching, to help you understand how it works.',
-  answer: 'Appropriate',
-  explanation: 'AI may be used to supplement learning and explain unfamiliar concepts.',
-  policy: 'You must independently determine whether the method is appropriate for your research and justify its use.'
-},
-{
-  title: 'Scenario 15',
-  text: 'You ask AI to generate references, citations, or DOI numbers for your thesis literature review.',
-  answer: 'Not Appropriate',
-  explanation: 'AI may generate inaccurate, incomplete, or fabricated references.',
-  policy: 'You must locate and verify every source independently using authoritative databases.'
-},
-{
-  title: 'Scenario 16',
-  text: 'You use an AI tool to check whether a paragraph you wrote contains spelling errors. The tool flags errors but does not rewrite or generate replacement sentences.',
-  answer: 'Depends',
-  explanation: 'Basic proofreading may be acceptable, but the extent of editing permitted depends on the course policy.',
-  policy: 'Do not use AI to rewrite, paraphrase, or substantially revise submitted academic work.'
-},
-{
-  title: 'Scenario 17',
-  text: 'You ask AI to develop a statistical analysis plan using your research question, study design, variables, and proposed hypotheses.',
-  answer: 'Not Appropriate',
-  explanation: 'Developing and justifying the analytical approach is a central thesis competency.',
-  policy: 'You must independently develop and defend your statistical analysis plan.'
-},
-{
-  title: 'Scenario 18',
-  text: 'You ask AI to quiz you on potential sources of bias, confounding, and effect modification before an upcoming class session.',
-  answer: 'Appropriate',
-  explanation: 'Practice questions can support independent learning.',
-  policy: 'Use AI to strengthen your understanding, not to replace your own critical thinking.'
-}
-];
+const SCENARIOS=[{title:'Scenario 1',text:'While studying for an Epidemiology test, you use AI to explain the difference between prevalence and incidence.',answer:'Appropriate',explanation:'AI is acting as a tutor.',policy:'Learning support is encouraged.'},
+{title:'Scenario 2',text:'Use AI to summarize a CDC report before you read it.',answer:'Appropriate',explanation:'AI helps you prepare for learning.',policy:'Verify important details yourself.'},
+{title:'Scenario 3',text:'Use AI to suggest additional PubMed search terms.',answer:'Appropriate',explanation:'AI supports literature searching.',policy:'You still conduct and evaluate the search.'},
+{title:'Scenario 4',text:'Use AI to explain a SAS or STATA error message.',answer:'Appropriate',explanation:'AI is helping you troubleshoot.',policy:'You remain responsible for your analysis.'},
+{title:'Scenario 5',text:'Use AI to Quiz you before an exam.',answer:'Appropriate',explanation:'Practice questions support learning.',policy:'Use them to study, not replace studying.'},
+{title:'Scenario 6',text:"Use AI to identify possible themes across articles you've already read.",answer:'Depends',explanation:'Useful for brainstorming, but verify every theme.',policy:'You are responsible for the synthesis.'},
+{title:'Scenario 7',text:'Use AI to suggest possible research questions after your literature review.',answer:'Depends',explanation:'Brainstorming is acceptable if you refine the ideas.',policy:'The final question should reflect your own thinking.'},
+{title:'Scenario 8',text:'Use AI to improve the grammar of a paragraph you wrote.',answer:'Depends',explanation:'Editing may be acceptable depending on course policy.',policy:'Ideas and authorship must remain yours.'},
+{title:'Scenario 9',text:'Use AI to review your study aims for clarity.',answer:'Depends',explanation:'Feedback is different from writing the content.',policy:'You decide the final wording.'},
+{title:'Scenario 10',text:'Use AI to suggest an outline for your discussion section.',answer:'Depends',explanation:'Organization help may be acceptable.',policy:'You must write the discussion yourself.'},
+{title:'Scenario 11',text:'Use AI to write your discussion section.',answer:'Not Appropriate',explanation:'This replaces your required intellectual work.',policy:'Submitted work should represent your own thinking.'},
+{title:'Scenario 12',text:'Use AI to write your discussion board post with minor edits.',answer:'Not Appropriate',explanation:'The substantive content was produced by AI.',policy:'Course participation should reflect your own ideas.'},
+{title:'Scenario 13',text:'Use AI to generate a literature review to submit.',answer:'Not Appropriate',explanation:'AI is completing the assignment.',policy:'This misrepresents authorship.'},
+{title:'Scenario 14',text:"Use AI to rewrite another author's work to appear original.",answer:'Not Appropriate',explanation:'This is plagiarism.',policy:'Academic integrity still applies.'},
+{title:'Scenario 15',text:'Use AI to interpret your regression results and submit the interpretation without reviewing it.',answer:'Not Appropriate',explanation:'Critical interpretation is your responsibility.',policy:'Do not outsource required analysis.'}];
+
 
 //=====================
 const choices=["Appropriate","Depends","Not Appropriate"];
